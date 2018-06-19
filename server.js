@@ -37,6 +37,8 @@ app.get('/api/session/set/:name/:value',
   setSession);
 app.get('/api/session/get/:name',
   getSession);
+app.get('/api/session/logout',
+    resetSession);
 // app.get('/api/session/get',
 //   getSessionAll);
 // app.get('/api/session/reset',
@@ -53,6 +55,11 @@ function getSession(req, res) {
   var name = req.params['name'];
   var value = req.session[name];
   res.send(value);
+}
+
+function resetSession(req, res) {
+    req.session.destroy();
+    res.send('session destroyed');
 }
 
 

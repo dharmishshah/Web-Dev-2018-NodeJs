@@ -12,7 +12,7 @@ module.exports = function (app) {
     var id = req.params['userId'];
     userModel.findUserById(id)
       .then(function (user) {
-        res.json(user);
+            res.json(user);
       })
   }
 
@@ -20,13 +20,12 @@ module.exports = function (app) {
       var user = req.body;
       var username = user.username;
       var password = user.password;
-      var user = userModel.findUserByCredentials(username, password).then(function (user){
+      userModel.findUserByCredentials(username, password).then(function (user){
           if(user){
               req.session['currentUser'] = user;
-              res.json(user)
               res.send(user);
           }else{
-            res.json('User not found');
+            res.send('User not found');
           }
 
       })
@@ -34,7 +33,14 @@ module.exports = function (app) {
   }
 
   function profile(req, res) {
-    res.send(req.session['currentUser']);
+      var user = req.session['currentUser']
+      var userId = user._id
+
+      userModel.findUserById(userId)
+          .then(function (user) {req.session['currentUser'] = user;
+              res.send(req.session['currentUser']);
+          })
+
   }
 
   function updateProfile(req, res){

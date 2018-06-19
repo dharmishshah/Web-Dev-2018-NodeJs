@@ -17,7 +17,9 @@ function updateUser(userId, user){
         $set: {firstName: user.username,
                 lastName:user.lastName,
                 email:user.email,
-                username:user.username}
+                username:user.username,
+                address : user.address,
+                phoneNumber: user.phoneNumber}
     });
 }
 
@@ -39,7 +41,8 @@ var api = {
     createUser: createUser,
     findAllUsers: findAllUsers,
     findUserById: findUserById,
-    findUserByCredentials: findUserByCredentials
+    findUserByCredentials: findUserByCredentials,
+    updateUser: updateUser
 };
 
 module.exports = api;

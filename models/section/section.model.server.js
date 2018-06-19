@@ -6,6 +6,19 @@ function createSection(section) {
   return sectionModel.create(section);
 }
 
+function updateSection(sectionId, section){
+    return sectionModel.update({
+        _id: sectionId
+    }, {
+        $set: {name: section.name,
+            seats:section.seats}
+    });
+}
+
+function deleteSection(sectionId){
+  return sectionModel.remove({_id: sectionId}, function(err){})
+}
+
 function findSectionsForCourse(courseId) {
   return sectionModel.find({courseId: courseId}).populate('students').exec();
 }
@@ -34,10 +47,20 @@ function addStudentInSection(sectionId, studentId) {
     });
 }
 
+
+function removeStudentInSection(sectionId, studentId) {
+    return sectionModel.update({
+        _id: sectionId
+    }, {
+        $pull: {students: studentId}
+    });
+}
+
 module.exports = {
   createSection: createSection,
   findSectionsForCourse: findSectionsForCourse,
   decrementSectionSeats: decrementSectionSeats,
   incrementSectionSeats: incrementSectionSeats,
-    addStudentInSection : addStudentInSection
+    addStudentInSection : addStudentInSection,
+    removeStudentInSection: removeStudentInSection
 };
