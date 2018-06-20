@@ -6,26 +6,13 @@ mongoose.connect('mongodb://heroku_cp7fwdnc:n9f70lk4dkajehigpqaj2lgnf3@ds163300.
 
 var app = express()
 
-app.use(cors())
-
-var whitelist = ['http://example1.com', 'http://example2.com']
-var corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
-}
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin",
-    "http://localhost:4200");
+  res.header("Access-Control-Allow-Origin", "https://webdev-angular-2018.herokuapp.com");
   res.header("Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods",
@@ -33,6 +20,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
+
 
 var session = require('express-session')
 app.use(session({
