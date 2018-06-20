@@ -1,9 +1,24 @@
 var express = require('express')
 var bodyParser = require('body-parser');
+var cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://heroku_cp7fwdnc:n9f70lk4dkajehigpqaj2lgnf3@ds163300.mlab.com:63300/heroku_cp7fwdnc');
 
 var app = express()
+
+app.use(cors())
+
+var whitelist = ['http://example1.com', 'http://example2.com']
+var corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
