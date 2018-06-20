@@ -58,6 +58,7 @@ function getSession(req, res) {
 }
 
 function resetSession(req, res) {
+    req.session['currentUser'] = {}
     req.session.destroy();
     res.send('session destroyed');
 }

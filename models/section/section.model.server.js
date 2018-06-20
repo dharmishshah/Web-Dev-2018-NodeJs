@@ -10,8 +10,8 @@ function updateSection(sectionId, section){
     return sectionModel.update({
         _id: sectionId
     }, {
-        $set: {name: section.name,
-            seats:section.seats}
+        $set: {name: section.sectionName,
+            seats:section.sectionSeats}
     });
 }
 
@@ -27,7 +27,7 @@ function decrementSectionSeats(sectionId) {
   return sectionModel.update({
     _id: sectionId
   }, {
-    $inc: {seats: -1}
+    $inc: {availableSeats: -1}
   });
 }
 
@@ -35,7 +35,7 @@ function incrementSectionSeats(sectionId) {
   return sectionModel.update({
     _id: sectionId
   }, {
-    $inc: {seats: +1}
+    $inc: {availableSeats: +1}
   });
 }
 
@@ -62,5 +62,7 @@ module.exports = {
   decrementSectionSeats: decrementSectionSeats,
   incrementSectionSeats: incrementSectionSeats,
     addStudentInSection : addStudentInSection,
-    removeStudentInSection: removeStudentInSection
+    removeStudentInSection: removeStudentInSection,
+    updateSection : updateSection,
+    deleteSection : deleteSection
 };

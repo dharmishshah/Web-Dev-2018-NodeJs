@@ -5,6 +5,7 @@ module.exports = function (app) {
   app.get('/api/profile', profile);
   app.post('/api/profile', updateProfile);
   app.post('/api/user/findUserByCredentials', findUserByCredentials);
+  app.get('/api/user/findUserByUsername/:username',findUserByUsername )
 
   var userModel = require('../models/user/user.model.server');
 
@@ -25,12 +26,23 @@ module.exports = function (app) {
               req.session['currentUser'] = user;
               res.send(user);
           }else{
-            res.send('User not found');
+            res.json('User not found');
           }
 
       })
-
   }
+
+    function findUserByUsername(req, res){
+        var username = req.params.username;
+        userModel.findUserByUsername(username).then(function (user){
+            if(user){
+                res.json("true");
+            }else{
+                res.json('false');
+            }
+
+        })
+    }
 
   function profile(req, res) {
       var user = req.session['currentUser']

@@ -1,7 +1,7 @@
 module.exports = function (app) {
 
   app.post('/api/course/:courseId/section', createSection);
-  app.put('/api/course/:courseId/section', updateSection);
+  app.put('/api/section/:sectionId', updateSection);
   app.delete('/api/section/:sectionId', deleteSection);
   app.get('/api/course/:courseId/section', findSectionsForCourse);
   app.post('/api/section/:sectionId/enrollment', enrollStudentInSection);
@@ -79,6 +79,7 @@ module.exports = function (app) {
 
   function createSection(req, res) {
     var section = req.body;
+    section.availableSeats = section.seats;
     sectionModel
       .createSection(section)
       .then(function (section) {
@@ -88,8 +89,9 @@ module.exports = function (app) {
 
     function updateSection(req, res) {
         var section = req.body;
+        var sectionId = req.params.sectionId;
         sectionModel
-            .createSection(section)
+            .updateSection(sectionId, section)
             .then(function (section) {
                 res.json(section);
             })
@@ -97,11 +99,14 @@ module.exports = function (app) {
 
     function deleteSection(req, res) {
         var sectionId = req.params.sectionId;
-        sectionModel
-            .createSection(section)
-            .then(function (section) {
-                res.json(section);
-            })
+
+        enrollmentModel.removeAllEnrollmentsBySectionId(sectionId).then(function () {
+          return  sectionModel
+              .deleteSection(sectionId)
+        }).then(function (section){
+          res.send('deleted successfully')
+        })
+
     }
 
 };
