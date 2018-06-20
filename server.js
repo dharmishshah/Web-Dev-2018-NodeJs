@@ -1,8 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/webdev');
-
+mongoose.connect('mongodb://heroku_cp7fwdnc:n9f70lk4dkajehigpqaj2lgnf3@ds163300.mlab.com:63300/heroku_cp7fwdnc');
 
 var app = express()
 
